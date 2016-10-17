@@ -6,6 +6,10 @@ Inspired from a number of sources,
 
 * [Think Stats](http://greenteapress.com/thinkstats2/) by Allen B. Downey
 
+### Installing
+```
+pip install pystpr
+```
 ### Requirements:
 * NumPy
 * Pandas
