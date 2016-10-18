@@ -12,6 +12,7 @@ class Pmf:
     """
     Probability Mass Functions
     """
+
     def __init__(self):
         self._pmf = []
 
@@ -76,6 +77,7 @@ class Cdf:
     """
     Cumulative Distribution Functions
     """
+
     def __init__(self):
         self._cdf = []
 
@@ -121,6 +123,38 @@ class Cdf:
         """
         return stats.iqr(sample, interpolation=interpolation)
 
+    @staticmethod
+    def quantile(sample, type, interpolation="linear"):
+        """
+        Computes different types of quantiles. Supported quantiles: quartile, quintile, decile
+        :param sample:
+        :param type:
+        :param interpolation:
+        :return:
+        """
+        types = ["quartile", "quintile", "decile"]
+
+        if type not in types:
+            raise ValueError("Invalid quantile type!")
+
+        quantiles = []
+
+        if type is "quartile":
+            base_percentile_rank = 25
+        elif type is "quintile":
+            base_percentile_rank = 20
+        elif type is "decile":
+            base_percentile_rank = 10
+        percentile_rank = 0
+
+        while True:
+            percentile_rank += base_percentile_rank
+            if percentile_rank >= 100:
+                break
+            quantiles.append(numpy.percentile(sample, percentile_rank, interpolation=interpolation))
+
+        return quantiles
+
     def plot(self):
         """
         Plots all the added samples
@@ -139,7 +173,7 @@ class Cdf:
             mins.append(sorted_sample[0])
             maxs.append(sorted_sample[-1])
 
-            y = numpy.array(range(total))/float(total)
+            y = numpy.array(range(total)) / float(total)
             pyplot.step(sorted_sample, y)
 
         mins = sorted(mins)
