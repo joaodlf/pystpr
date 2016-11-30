@@ -88,6 +88,9 @@ class Cdf:
         :param sample:
         :return:
         """
+        if isinstance(sample, pandas.Series):
+            sample = sample.dropna()
+
         self._cdf.append({
             "sample": sample,
         })
